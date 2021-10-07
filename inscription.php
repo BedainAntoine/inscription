@@ -3,9 +3,9 @@
 <head>
 </head>
 <body>
-    
+
 <h1>Inscription<h1>
-   
+
     <form method="post" action="">
         <p>Nom</p>
         <input type="text" name="nom">
@@ -23,11 +23,10 @@
         <input type="text" name="groupe">
         <p>Mot de passe</p>
         <input type="password" name="mdp">
-        <p>Sexe</p>
-        <input type="texte" name="sexe">
-
+        <p>sexe</p>
+        <input type="text" name="sexe">
         <input type="submit" name="submit" value="Valider">
-   
+
     </form>
 
 <?php
@@ -36,16 +35,15 @@
 require('../config.php');
 
 try{
-    $bdd = new PDO('mysql:host=localhost;dbname=workshop;charset=utf8', 'bitnami', 'mdpdebian');
-}catch (Exception $e){
-    echo "Not OK";
+ $bdd = new PDO('mysql:host=localhost;dbname=workshop;charset=utf8', 'bitnami', 'mdpdebian');
+//echo "ok";
+}catch (PDOException $e){
+echo "Not OK".$e->getMessage();
 }
-
-
 //traitement du formulaire:
     if (isset($_POST['submit']))
     {
-    
+
    $nom = htmlspecialchars(trim($_POST['nom']));
    $prenom = htmlspecialchars(trim($_POST['prenom']));
    $age = htmlspecialchars(trim($_POST['age']));
@@ -54,19 +52,17 @@ try{
    $adresseMail = htmlspecialchars(trim($_POST['adresseMail']));
    $groupe = htmlspecialchars(trim($_POST['groupe']));
    $mdp = htmlspecialchars(trim($_POST['mdp']));
-   $sexe = htmlspecialchars(trim($_POST['sexe'])); 
-   
-   if($adresseMail && $mdp && $nom && $groupe && $ville && $prenom && $age && $telephone && $sexe){
+   $sexe = htmlspecialchars(trim($_POST['sexe']));
 
-    $query = "INSERT INTO utilisateur (nom, prenom, age, ville, telephone, adresseMail, groupe, mdp, sexe) VALUES ('$nom', '$prenom', '$age', '$ville', '$telephone', '$adresseMail', '$groupe', '$mdp', '$sexe')";
-    
+   if($adresseMail && $mdp && $nom && $prenom && $age && $telephone && $sexe && $groupe && $ville){
+
+    $query = "INSERT INTO utilisateur (nom, prenom, age, ville, telephone, adresseMail, groupe, mdp, sexe) VALUES ('$nom', '$prenom',  '$age', '$ville', '$telephone', '$adresseMail', '$groupe', '$mdp', '$sexe')";
+//echo $query;
     $bdd->exec($query);
-
-    if($bdd->connect_error)){
-        echo "Message Erreur", $bdd->error_reporting;
-        
-    }
-
+//$res = mysqli_query($bdd,$query);
+    if($bdd->connect_error){
+                echo "message erreur",$bdd->connect_error;
+        }
    }else echo "C'est non";
 }
  ?>
